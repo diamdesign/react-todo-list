@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 
 function App() {
+	const [todo, setTodo] = useState("");
 	const [todos, setTodos] = useState([]);
 	const [editingIndex, setEditingIndex] = useState(-1);
 	const [editedTodo, setEditedTodo] = useState("");
@@ -15,9 +16,9 @@ function App() {
 	}, [editingIndex]);
 
 	const handleAddTodo = (e) => {
-		if (e.key === "Enter" && e.target.value.trim() !== "") {
-			setTodos([...todos, e.target.value.trim()]);
-			e.target.value = "";
+		if (e.key === "Enter" && todo.trim() !== "") {
+			setTodos([todo.trim(), ...todos]); // Add new todo to the beginning of the list
+			setTodo(""); // Clear the input field
 		}
 	};
 
@@ -30,7 +31,7 @@ function App() {
 		if (editedTodo.trim() !== "") {
 			const newTodos = [...todos];
 			newTodos[index] = editedTodo.trim();
-			setTodos(newTodos);
+			setTodos(newTodos); // Reverse the order after updating
 			setEditingIndex(-1);
 		}
 	};
@@ -38,13 +39,19 @@ function App() {
 	const handleDeleteTodo = (index) => {
 		const newTodos = [...todos];
 		newTodos.splice(index, 1);
-		setTodos(newTodos);
+		setTodos(newTodos.reverse()); // Reverse the order after deleting
 	};
 
 	return (
 		<div id="todos">
 			<h1>Todos</h1>
-			<input type="text" placeholder="Add a todo..." onKeyUp={handleAddTodo} />
+			<input
+				type="text"
+				placeholder="Add a todo..."
+				value={todo}
+				onChange={(e) => setTodo(e.target.value)}
+				onKeyUp={handleAddTodo}
+			/>
 			<div id="list">
 				{todos.map((todo, index) => (
 					<div key={index}>
