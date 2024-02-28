@@ -1,0 +1,14 @@
+#list {
+	max-height: 50vh;
+	overflow-y: auto;
+	padding: 1rem;
+	margin-top: 1rem;
+	max-width: 20rem;
+}
+
+#list div {
+	display: grid;
+	gap: 0.5rem;
+	grid-template-columns: 8fr 1fr 1fr;
+	padding: 0.3rem;
+}
